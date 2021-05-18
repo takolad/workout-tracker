@@ -13,6 +13,7 @@ const ExerciseSchema = new Schema({
     name:
     {
       type: String,
+      trim: true,
       minLength: 4,
       required: [ true, 'An exercise name is required' ]
     },
