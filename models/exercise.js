@@ -8,16 +8,34 @@ const ExerciseSchema = new Schema({
       {
         type: String,
         enum: ['cardio', 'resistance'],
+        required: [ true, 'An exercise type must be selected']
       },
     name:
     {
       type: String,
-      minLength: 4
+      minLength: 4,
+      required: [ true, 'An exercise name is required' ]
     },
-    weight: Number,
-    sets: Number,
-    reps: Number,
-    duration: Number
+    duration: {
+      type: Number,
+      required: [ true, 'A duration is required' ],
+      min: 0
+    },
+    weight: {
+      type: Number,
+      required: false,
+      min: 0
+    },
+    sets: {
+      type: Number,
+      required: false,
+      min: 0
+    },
+    reps: {
+      type: Number,
+      required: false,
+      min: 0
+    },
   }
 });
 
