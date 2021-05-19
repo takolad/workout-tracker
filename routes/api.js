@@ -10,7 +10,6 @@ router.get("/", (req, res) => {
 router.get("/api/workouts", (req, res) => {
   db.Workout.find({})
     .sort({ day: 1 })
-    .populate("exercises") // this or Exercise model is busted
     .then(dbWorkout => {
       console.log(dbWorkout);
       res.json(dbWorkout);
@@ -23,8 +22,7 @@ router.get("/api/workouts", (req, res) => {
 // get workouts in a range (all workouts?)
 router.get("/api/workouts/range", (req, res) => {
   db.Workout.find({})
-    .sort({ date: -1 })
-    .populate("exercises")
+    .sort({ day: -1 })
     .then(dbWorkout => {
       res.json(dbWorkout);
     })
