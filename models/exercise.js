@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const ExerciseSchema = new Schema({
-  exercise: {
+  exercise: new Schema({
     type:
       {
         type: String,
@@ -37,7 +37,12 @@ const ExerciseSchema = new Schema({
       required: false,
       min: 0
     },
-  }
+    distance: {
+      type: Number,
+      required: false,
+      min: 0
+    },
+  })
 });
 
 const Exercise = mongoose.model("Exercise", ExerciseSchema);
