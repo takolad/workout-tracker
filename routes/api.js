@@ -7,10 +7,16 @@ router.get("/", (req, res) => {
 });
 
 // get all workouts (called by getLastWorkout)
-router.get("/api/workouts", (req, res) => {
-  Workout.aggregate([
+router.get("/api/workouts", async (req, res) => {
+  await Workout.aggregate([
     { $unwind: "$exercises"},
     { $match: {} },
+    {
+      $addFields:
+      {
+        totalDuration: { $sum: "$exercises.duration" }
+      }
+    },
     {
       $group:
       {
@@ -18,13 +24,21 @@ router.get("/api/workouts", (req, res) => {
         totalDuration: { $sum : "$exercises.duration" }
       }
     },
-  ]).then(test => {
-    const options = { upsert: true, new: true};
-    for (let i = 0; i < test.length; i++) {
-      Workout.findByIdAndUpdate(
-        { _id : test[i]._id }, { totalDuration: test[i].totalDuration }, options);
+  ]).then(results => {
+    for(let i = 0; i < results.length; i++) {
+      Workout.updateOne(
+        {
+          _id: results[i]._id
+        },
+        {
+          totalDuration: results[i].totalDuration
+        })
+        .then(results => {
+          // console.log(results);
+        })
+        .catch(err => console.log(err));
     }
-  });
+  }).catch(err => console.log(err));
 
   Workout.find({})
     .sort({ day: 1 })
@@ -36,13 +50,32 @@ router.get("/api/workouts", (req, res) => {
     });
 });
 
-// get workouts in a range (all workouts?)
-router.get("/api/workouts/range", (req, res) => {
-  Workout.find({})
-    // .sort({ day: -1 })
-    .then(dbWorkout => {
-
-      res.json(dbWorkout);
+// get workouts in a range (past 7 workouts)
+router.get("/api/workouts/range", async (req, res) => {
+  Workout.aggregate([
+    { $unwind: "$exercises"},
+    {
+      $project: {
+        _id: 0,
+        _id: "$_id",
+        day: "$day",
+        totalDuration: "$totalDuration",
+        exercises: [{
+          "name": "$exercises.name",
+          "duration": "$exercises.duration",
+          "type": "$exercises.type",
+          "weight": { $sum: "$exercises.weight" },
+        }]
+      }
+    },
+  ])
+    .sort({ day: -1 })
+    .limit(7)
+    .then(workout => {
+      for(let i = 0; i < workout.length; i++) {
+        console.log(workout);
+      }
+      res.json(workout);
     })
     .catch(err => {
       res.status(400).json(err);

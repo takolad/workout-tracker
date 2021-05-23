@@ -147,7 +147,7 @@ function populateChart(data) {
     options: {
       title: {
         display: true,
-        text: 'Exercises Performed',
+        text: 'Exercise Durations',
       },
     },
   });
@@ -184,10 +184,8 @@ function calculateTotalWeight(data) {
         return total;
       }
     }, 0);
-
     totals.push(workoutTotal);
   });
-
   return totals;
 }
 
@@ -201,7 +199,8 @@ function workoutNames(data) {
   });
 
   // return de-duplicated array with JavaScript `Set` object
-  return [...new Set(workouts)];
+  // return [...new Set(workouts)];
+  return workouts; // until I can figure out weight data
 }
 
 // get all workout data from back-end
