@@ -6,10 +6,14 @@
     a Mongo database, a Mongoose Schema, and Express for routing.
 
 ## Screenshots
-   TBA
+   ![Home Page](./public/images/home-img.png)
+   ![Add Workout](./public/images/workout-img1.png)
+   ![Add Workout2](./public/images/workout-img2.png)
+   ![Stats Page](./public/images/stats-img.png)
 
 ## Links
-   TBA
+   [Deployed Site](https://workout-eyrie-46993.herokuapp.com/)
+   [Repo Link](https://github.com/takolad/workout-tracker)
 
 ## License
    ![MIT License Badge](https://img.shields.io/badge/License-MIT-yellow.svg)
