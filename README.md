@@ -6,10 +6,10 @@
     a Mongo database, a Mongoose Schema, and Express for routing.
 
 ## Screenshots
-   ![Home Page](./public/images/home-img.png)
-   ![Add Workout](./public/images/workout-img1.png)
-   ![Add Workout2](./public/images/workout-img2.png)
-   ![Stats Page](./public/images/stats-img.png)
+   ![Home Page](./public/assets/images/home-img.png)
+   ![Add Workout](./public/assets/images/workout-img1.png)
+   ![Add Workout2](./public/assets/images/workout-img2.png)
+   ![Stats Page](./public/assets/images/stats-img.png)
 
 ## Links
    [Deployed Site](https://workout-eyrie-46993.herokuapp.com/)
