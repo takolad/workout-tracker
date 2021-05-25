@@ -53,16 +53,11 @@ router.get("/api/workouts", async (req, res) => {
 // get workouts in a range (past 7 workouts)
 router.get("/api/workouts/range", async (req, res) => {
   Workout.aggregate([
-    { $sort: { day: -1}},
-    { $limit: 7},
     { $unwind: "$exercises"},
     {
-      $addFields: {
-        totalDuration: { $sum:  "$exercises.duration" }
-      }
-    },
-    {
       $project: {
+        _id: 0,
+        _id: "$_id",
         day: "$day",
         totalDuration: "$totalDuration",
         exercises: [{
@@ -74,10 +69,12 @@ router.get("/api/workouts/range", async (req, res) => {
       }
     },
   ])
+    .sort({ day: -1 })
+    .limit(7)
     .then(workout => {
-      // for(let i = 0; i < workout.length; i++) {
-      //   console.log(workout[i]);
-      // }
+      for(let i = 0; i < workout.length; i++) {
+        console.log(workout);
+      }
       res.json(workout);
     })
     .catch(err => {
